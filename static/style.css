@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #ffffffaa, 0 0 20px #00fff2aa;
+}
+
+#countdown {
+  font-size: 2em;
+  padding: 15px 30px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px #00ffccaa;
+  backdrop-filter: blur(8px);
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+#visits {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #eeeeeecc;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  font-size: 0.9em;
+  color: #cccccc;
+  text-shadow: 0 0 5px #fff;
+  width: 100%;
+  text-align: center;
+}
+
+canvas#fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* LIGHT MODE */
+body.light {
+  background: linear-gradient(135deg, #fceabb, #f8b500);
+  color: #222;
+}
+
+body.light #countdown {
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px #f8b500aa;
+  color: #000;
+}
+
+body.light h1 {
+  text-shadow: 0 0 10px #f8b500aa;
+}
+
+body.light footer {
+  color: #444;
+}
+
+/* DARK MODE */
+body.dark {
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  color: #fff;
+}

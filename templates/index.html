@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown to 2026</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <canvas id="fireworks"></canvas>
+
+  <!-- Biểu tượng chế độ sáng/tối -->
+  <img id="mode-icon" src="" alt="theme icon" width="80" style="margin-bottom: 20px; transition: 0.5s;">
+
+  <h1>Đếm ngược đến năm mới 2026!</h1>
+  <div id="countdown">Đang tải...</div>
+  <div id="visits">Số người ghé thăm: {{ visits }}</div>
+
+  <footer>
+    nam2010© 2025 All rights reserved.
+  </footer>
+
+  <script>
+    // DARK / LIGHT MODE theo giờ VN
+    const hourVN = new Date().getUTCHours() + 7; // Giờ Việt Nam (UTC +7)
+    const modeIcon = document.getElementById("mode-icon");
+
+    if (hourVN >= 6 && hourVN < 18) {
+      // LIGHT MODE
+      document.body.classList.add("light");
+      modeIcon.src = "{{ url_for('static', filename='img/light.png') }}"; // Hình ảnh cho chế độ sáng
+    } else {
+      // DARK MODE
+      document.body.classList.add("dark");
+      modeIcon.src = "{{ url_for('static', filename='img/dark.png') }}"; // Hình ảnh cho chế độ tối
+    }
+
+    // Countdown
+    const target = new Date("2026-01-01T00:00:00Z"); // UTC time
+    const countdownEl = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        countdownEl.innerHTML = "Chúc mừng năm mới!";
+        launchFireworks();
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdownEl.innerHTML =
+        `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Pháo hoa
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function launchFireworks() {
+      setInterval(() => {
+        for (let i = 0; i < 100; i++) {
+          particles.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angle: Math.random() * 2 * Math.PI,
+            speed: Math.random() * 4 + 2,
+            radius: Math.random() * 2 + 1,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+            life: 100
+          });
+        }
+      }, 300);
+    }
+
+    function animateFireworks() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.life--;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        if (p.life <= 0) particles.splice(i, 1);
+      });
+
+      requestAnimationFrame(animateFireworks);
+    }
+
+    animateFireworks();
+  </script>
+</body>
+</html>
