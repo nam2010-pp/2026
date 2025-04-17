@@ -35,8 +35,7 @@ function launchFireworks() {
   }
 
   function draw() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     particles.forEach((p, i) => {
       ctx.beginPath();
