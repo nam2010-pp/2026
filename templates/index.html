@@ -16,38 +16,41 @@
   </div>
   <canvas id="fireworks-canvas"></canvas>
   <audio id="bg-music" autoplay loop>
-  <source src="{{ url_for('static', filename='audio/1.mp3') }}" type="audio/mpeg">
-  Trình duyệt của bạn không hỗ trợ phần tử âm thanh.
-</audio>
+    <source src="{{ url_for('static', filename='audio/1.mp3') }}" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ phần tử âm thanh.
+  </audio>
+
   <script>
-  // Phát nhạc nếu bị browser chặn autoplay
-  window.addEventListener('click', () => {
-    const audio = document.getElementById('bg-music');
-    if (audio.paused) audio.play();
-  });
-</script>
+    // Tự động phát nhạc khi trang được tải
+    window.onload = function() {
+      const audio = document.getElementById('bg-music');
+      audio.play().catch(function(error) {
+        // Nếu autoplay bị chặn, chúng ta có thể hiển thị thông báo
+        console.log("Autoplay bị chặn, yêu cầu người dùng click vào trang.");
+      });
+    }
+
+    function initCountdown() {
+      const target = new Date("January 1, 2026 00:00:00").getTime();
+      setInterval(() => {
+        const now = new Date().getTime();
+        const gap = target - now;
+
+        const d = Math.floor(gap / (1000 * 60 * 60 * 24));
+        const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((gap % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+      }, 1000);
+    }
+
+    function setThemeByTime() {
+      const hour = new Date().getHours();
+      const isDark = hour >= 18 || hour < 6;
+      document.body.classList.add(isDark ? "dark-mode" : "light-mode");
+      document.body.classList.remove(isDark ? "light-mode" : "dark-mode");
+    }
+  </script>
 </body>
-<script>
-  function initCountdown() {
-    const target = new Date("January 1, 2026 00:00:00").getTime();
-    setInterval(() => {
-      const now = new Date().getTime();
-      const gap = target - now;
-
-      const d = Math.floor(gap / (1000 * 60 * 60 * 24));
-      const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((gap % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
-    }, 1000);
-  }
-
-  function setThemeByTime() {
-    const hour = new Date().getHours();
-    const isDark = hour >= 18 || hour < 6;
-    document.body.classList.add(isDark ? "dark-mode" : "light-mode");
-    document.body.classList.remove(isDark ? "light-mode" : "dark-mode");
-  }
-</script>
 </html>
