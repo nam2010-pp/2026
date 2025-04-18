@@ -19,6 +19,13 @@
   <source src="{{ url_for('static', filename='audio/1.mp3') }}" type="audio/mpeg">
   Trình duyệt của bạn không hỗ trợ phần tử âm thanh.
 </audio>
+  <script>
+  // Phát nhạc nếu bị browser chặn autoplay
+  window.addEventListener('click', () => {
+    const audio = document.getElementById('bg-music');
+    if (audio.paused) audio.play();
+  });
+</script>
 </body>
 <script>
   function initCountdown() {
