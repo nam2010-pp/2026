@@ -1,35 +1,28 @@
 <!DOCTYPE html>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Countdown to 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="{{ url_for('static', filename='fireworks.js') }}"></script>
 </head>
-<body onload="initCountdown(); setThemeByTime(); launchFireworks();">
+<body>
   <div class="overlay">
     <h1 class="title">Countdown to 2026</h1>
     <div id="countdown" class="countdown"></div>
     <p class="visits">Visitors: {{ visits }}</p>
     <p class="footer">nam2010© 2025 All rights reserved.</p>
   </div>
+  
   <canvas id="fireworks-canvas"></canvas>
+
   <audio id="bg-music" autoplay loop>
     <source src="{{ url_for('static', filename='audio/1.mp3') }}" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ phần tử âm thanh.
   </audio>
 
   <script>
-    // Tự động phát nhạc khi trang được tải
-    window.onload = function() {
-      const audio = document.getElementById('bg-music');
-      audio.play().catch(function(error) {
-        // Nếu autoplay bị chặn, chúng ta có thể hiển thị thông báo
-        console.log("Autoplay bị chặn, yêu cầu người dùng click vào trang.");
-      });
-    }
-
     function initCountdown() {
       const target = new Date("January 1, 2026 00:00:00").getTime();
       setInterval(() => {
@@ -51,6 +44,23 @@
       document.body.classList.add(isDark ? "dark-mode" : "light-mode");
       document.body.classList.remove(isDark ? "light-mode" : "dark-mode");
     }
+
+    function launchFireworks() {
+      if (typeof startFireworks === "function") {
+        startFireworks();
+      }
+    }
+
+    window.onload = () => {
+      initCountdown();
+      setThemeByTime();
+      launchFireworks();
+
+      const audio = document.getElementById('bg-music');
+      audio.play().catch(() => {
+        console.log("Autoplay bị chặn. Hãy click vào trang để bật nhạc.");
+      });
+    };
   </script>
 </body>
 </html>
