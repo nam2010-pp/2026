@@ -21,4 +21,5 @@ def ads():
     return send_from_directory(".", "ads.txt")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    # Giữ lại để phát triển với flask trong môi trường local
+    app.run(host="0.0.0.0", port=8000, debug=True)
