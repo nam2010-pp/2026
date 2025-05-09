@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
@@ -21,5 +22,6 @@ def ads():
     return send_from_directory(".", "ads.txt")
 
 if __name__ == "__main__":
-    # Giữ lại để phát triển với flask trong môi trường local
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    # Lấy cổng từ biến môi trường
+    port = int(os.environ.get("PORT", 8000))  # Cổng mặc định là 8000 nếu không có biến môi trường
+    app.run(host="0.0.0.0", port=port)
