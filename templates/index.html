@@ -13,20 +13,21 @@
   <div class="overlay">
     <h1 class="title">Countdown to 2026</h1>
     <div id="countdown" class="countdown"></div>
+  </div>
+
+  <div class="bottom-info">
     <p class="visits">Visitors: {{ visits }}</p>
-    <p class="footer">Nam2010© 2025.All rights reserved.</p>
+    <p class="footer">Nam2010© 2025. All rights reserved.</p>
   </div>
 
   <canvas id="fireworks-canvas"></canvas>
 
-  <!-- Nhạc nền -->
   <audio id="bg-music" autoplay loop>
     <source src="{{ url_for('static', filename='audio/1.mp3') }}" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ phần tử âm thanh.
   </audio>
   <button id="play-btn" style="display: none;">Play Music</button>
 
-  <!-- Script countdown, darkmode, nhạc -->
   <script>
     function initCountdown() {
       const target = new Date("January 1, 2026 00:00:00").getTime();
@@ -50,7 +51,6 @@
       document.body.classList.remove(isDark ? "light-mode" : "dark-mode");
     }
 
-    // Auto play nhạc nếu có thể, nếu không thì chờ user click
     window.onload = () => {
       initCountdown();
       setThemeByTime();
@@ -60,11 +60,9 @@
       const btn = document.getElementById('play-btn');
 
       audio.play().catch(() => {
-        // Nếu bị chặn thì trigger nút hidden
         btn.click();
       });
 
-      // Khi user click bất kỳ đâu thì thử phát nhạc lại
       window.addEventListener('click', () => {
         if (audio.paused) audio.play();
       });
